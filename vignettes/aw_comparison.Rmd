@@ -1,0 +1,35 @@
+---
+title: "aw_comparison"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{aw_comparison}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(aw)
+library(plotly)
+```
+
+```{r}
+ply <- plot_ly(x = ~wavelength, y = ~aw) %>%
+  add_lines(
+    data = aw_smith81,
+    name = "smith81"
+  ) %>%
+  add_lines(
+    data = aw_pope97,
+    name = "pope97"
+  )
+
+ply
+```
+
