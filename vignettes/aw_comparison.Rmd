@@ -17,18 +17,64 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(aw)
 library(plotly)
+
+font <- list(family = "Times New Roman", size = 20, weight = "normal")
+
+border <- list(
+  type = "rect",
+  fillcolor = "transparent",
+  line = list(width = 0.5),
+  xref = "paper",
+  yref = "paper",
+  x0 = 0,
+  x1 = 1,
+  y0 = 0,
+  y1 = 1
+)
 ```
 
 ```{r}
-ply <- plot_ly(x = ~wavelength, y = ~aw) %>%
+ply <- plot_ly(x = ~wavelength, y = ~a_w) %>%
   add_lines(
-    data = aw_smith81,
-    name = "smith81"
+    data = aw_smith_1981,
+    name = "smith_1981"
   ) %>%
   add_lines(
-    data = aw_pope97,
-    name = "pope97"
-  )
+    data = aw_pope_1997,
+    name = "pope_1997"
+  ) %>%
+  add_lines(
+    data = aw_ioccg_2018,
+    name = "ioccg_2018"
+  ) %>%
+  add_ribbons(
+    data = aw_ioccg_2018,
+    ymin = ~a_w - a_w_unc,
+    ymax = ~a_w + a_w_unc,
+    name = "ioccg_2018_unc"
+  ) %>%
+  layout(
+    yaxis = list(
+      title = TeX("a_\\text{w}\\ [\\text{m}^{-1}]"),
+      range = c(0, 3.22)
+    ),
+    xaxis = list(
+      title = TeX("\\text{wavelength} [\\text{nm}]"),
+      range = c(200, 830)
+    ),
+    font = font,
+    shapes = list(border),
+    legend = list(
+      font = list(
+        size = 20),
+      bgcolor = "rgba(105, 159, 245, 0.0)",#"#FFFFFF",
+      xanchor = "top-right",
+      yanchor = "top-right",
+      x = 0.1,
+      y = 1
+    )
+  ) %>%
+  config(mathjax = "cdn", displayModeBar = T)
 
 ply
 ```
